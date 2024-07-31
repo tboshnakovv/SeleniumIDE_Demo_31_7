@@ -1,0 +1,31 @@
+name: Selenium Ide CI
+
+on:
+    push:
+       branches:
+          - main
+    pull_request:
+       branches:
+          - main
+          
+jobs:
+    build:
+        runs-on: ubuntu-lates
+        
+    steps:
+    - name: Checkout code
+      uses: actions/Checkout@v3
+      
+    - name: Set up .Net
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: "6.0.x"
+        
+    - name: Install dependencies
+      dotnet restore
+      
+    - name: Build
+      dotnet build --no-restore
+      
+    - name: Run tests
+      dotnet test --verbosity normal
